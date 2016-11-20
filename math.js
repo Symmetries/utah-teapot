@@ -256,7 +256,7 @@ MATH.Polyhedron = class {
         var width = canvas.width;
         var height = canvas.height;
         var color;
-        
+        var scale = Math.min(ctx.canvas.width, ctx.canvas.height)
         var vertices;
         var homCoordChange = new MATH.Matrix(
             [this.e1[0], this.e2[0], this.e3[0], this.origin[0]],
@@ -264,9 +264,9 @@ MATH.Polyhedron = class {
             [this.e1[2], this.e2[2], this.e3[2], this.origin[2]],
             [0,          0,          0,          1             ]);
         var projection = new MATH.Matrix(
-            [1, 0, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0.001, 0]);
+            [scale, 0, 0, 0],
+            [0, scale, 0, 0],
+            [0, 0, 1, 0]);
         var oneShot = projection.matMult(homCoordChange);
         
         var coordChange = new MATH.Matrix(

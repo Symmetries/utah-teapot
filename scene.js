@@ -42,10 +42,6 @@ GAME.mainLoop = function(canvas, ctx) {
     
     var movement = rot1.matMult(rot2);
     
-    //GAME.tetra.translate([0, 0, -5]);
-    //GAME.tetra.globalTransform(rotation);
-    //GAME.tetra.translate([0, 0, 5]);
-    
     angle = 0.5 * delta;
     sin = Math.sin(angle);
     cos = Math.cos(angle);
@@ -53,7 +49,6 @@ GAME.mainLoop = function(canvas, ctx) {
         [cos, 0, -sin], 
         [0, 1, 0],
         [sin, 0, cos]);
-        
     
     GAME.cube.localTransform(rot1);
     GAME.tetra.localTransform(rot3);
