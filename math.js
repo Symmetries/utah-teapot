@@ -264,9 +264,9 @@ MATH.Polyhedron = class {
             [this.e1[2], this.e2[2], this.e3[2], this.origin[2]],
             [0,          0,          0,          1             ]);
         var projection = new MATH.Matrix(
-            [scale, 0, 0, 0],
-            [0, scale, 0, 0],
-            [0, 0, 1, 0]);
+            [scale, 0,     0, 0],
+            [0,     scale, 0, 0],
+            [0,     0,     1, 0]);
         var oneShot = projection.matMult(homCoordChange);
         
         var coordChange = new MATH.Matrix(
@@ -282,6 +282,18 @@ MATH.Polyhedron = class {
             return homCoordChange.matMult(MATH.Vector.average(face.vertices).hom).cart;
         }
         
+        function minDistance(face){
+            var minDistance = homCoordChange.matMult(face.vertices[0].hom).cart[2];
+            for (var i = 1; i < face.vertices.length; i++){
+                var newDistance = homCoordChange.matMult(face.vertices[i].hom).cart[2];
+                if (newDistance < minDistance) {
+                    minDistance = newDistance;
+                }
+                
+            }
+            return minDistance;
+        }
+        
         var facesToDraw = new Array(this.size);
         var distances = new Array(this.size);
         var length = 0;
@@ -291,7 +303,7 @@ MATH.Polyhedron = class {
             color = Math.round(256 * - v1.unit.dot(v2.unit));
             if (color > 0) {
                 facesToDraw[length] = [this.faces[i].vertices, String(color)];
-                distances[length] = v2.norm;
+                distances[length] = minDistance(this.faces[i]);// v2.norm;
                 length++;
             }
         }
